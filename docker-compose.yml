@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  api:
+    &api
+    build:
+      context: .
+      dockerfile: docker/prod/Dockerfile
+    image: nrc-transaction-logic
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./app:/app
+    ports:
+       - "8000:8000"
+    env_file:
+      - ./.env
+    restart: always
