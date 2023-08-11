@@ -6,6 +6,7 @@ from django.db import connection
 import collections, json, requests, logging, psycopg2, hashlib, hmac
 from django.db.models.aggregates import Count
 from django.db.models import Sum, F, Q, Case, When, Value
+from .filters import FoodReviewResponseFilter
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -3275,8 +3276,8 @@ class FoodReviewQuestionViewsets(viewsets.ModelViewSet):
         filters.SearchFilter,
         filters.OrderingFilter,
     ]
-    # filterset_fields = ["type"]
-    # filterset_class = PollFilter
+    filterset_fields = ["created_at", "vendor"]
+    filterset_class = FoodReviewResponseFilter
     # search_fields = ["type", "name"]
     ordering_fields = ["created_at"]
     permission_classes = [IsAuthenticated]
@@ -3330,6 +3331,11 @@ class FoodReviewQuestionViewsets(viewsets.ModelViewSet):
         queryset = FoodReviewResponse.objects.filter(
             transaction__company=request.user.company).select_related('question').prefetch_related(
             'selected_options')
+        
+        filterset_class = FoodReviewResponseFilter(request=request, data=request.GET, queryset=queryset)
+        if filterset_class.is_valid():
+            queryset = filterset_class.qs
+            
         paginator = CustomPagination()
         result_page = paginator.paginate_queryset(queryset.order_by('-created_at'), request)
         serializer = FoodReviewResponseSerializer(result_page, many=True)
