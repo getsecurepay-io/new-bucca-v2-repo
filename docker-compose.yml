@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: docker/prod/Dockerfile
-    image: nrc-transaction-logic
+    image: new-bucca-v2
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./app:/app
