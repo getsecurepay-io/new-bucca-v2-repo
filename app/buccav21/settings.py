@@ -230,11 +230,11 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_HEADERS = ('*')
-ANGULAR_APP_DIR = os.path.join(BASE_DIR, 'dist')
+# ANGULAR_APP_DIR = os.path.join(BASE_DIR, 'dist')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(ANGULAR_APP_DIR),
+    # os.path.join(ANGULAR_APP_DIR),
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
