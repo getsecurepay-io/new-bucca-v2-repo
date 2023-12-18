@@ -3266,6 +3266,22 @@ class CheckCashout(views.APIView):
             ],
         )
     )
+
+@method_decorator(
+    name='response_stats', decorator=swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                'vendor', openapi.IN_QUERY, description="Vendor Id", type=openapi.IN_QUERY
+                ),
+            openapi.Parameter(
+                'start_date', openapi.IN_QUERY, description="start date", type=openapi.IN_QUERY
+                ),
+            openapi.Parameter(
+                'end_date', openapi.IN_QUERY, description="end date", type=openapi.IN_QUERY
+                )
+            ],
+        )
+    )
 class FoodReviewQuestionViewsets(viewsets.ModelViewSet):
     queryset = FoodReviewQuestion.objects.all().prefetch_related('question_option')
     serializer_class = FoodReviewQuestionSerializer
@@ -3339,12 +3355,22 @@ class FoodReviewQuestionViewsets(viewsets.ModelViewSet):
             url_path='response-stat')
     def response_stats(self, request, pk=None):
         data = []
+        vendor = self.request.query_params.get('vendor')
+        start_date = self.request.query_params.get('start_date')
+        end_date = self.request.query_params.get('end_date')
         questions = FoodReviewQuestion.objects.filter(
             company=request.user.company).prefetch_related(
             'question_option', 'response_question')
         for quest in questions:
             all_options = quest.question_option.all()
             responded_options = quest.response_question.all()
+            if vendor:
+                responded_options = responded_options.filter(vendor_id=vendor)
+            if start_date:
+                responded_options = responded_options.filter(created_at__date__gte=start_date)
+            if end_date:
+                responded_options = responded_options.filter(created_at__date__lte=end_date)
+            print(responded_options.order_by('-created_at').values('created_at'))
             recorded_responded_option_list = responded_options.values_list('selected_options', flat=True)
 
             aggregate = responded_options.values('question').annotate(
