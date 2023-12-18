@@ -3370,7 +3370,6 @@ class FoodReviewQuestionViewsets(viewsets.ModelViewSet):
                 responded_options = responded_options.filter(created_at__date__gte=start_date)
             if end_date:
                 responded_options = responded_options.filter(created_at__date__lte=end_date)
-            print(responded_options.order_by('-created_at').values('created_at'))
             recorded_responded_option_list = responded_options.values_list('selected_options', flat=True)
 
             aggregate = responded_options.values('question').annotate(
