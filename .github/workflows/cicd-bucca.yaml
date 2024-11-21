@@ -48,6 +48,6 @@ jobs:
           script: |
             cd bucca/
             # Login to registry (if needed)
-            sudo docker compose -f docker-compose-dev.yaml pull
+            sudo docker compose -f docker-compose.yaml pull
             # Deploy with Docker Compose
             sudo docker compose -f docker-compose.yaml up -d --no-deps --build --force-recreate --remove-orphans
