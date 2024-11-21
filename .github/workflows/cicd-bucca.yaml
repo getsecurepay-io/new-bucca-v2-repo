@@ -46,9 +46,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSHKEY }}
           script: |
-            sudo su
             cd bucca/
-            # Login to registry
-            docker compose -f docker-compose-dev.yaml pull
-            # Use Docker Compose to recreate only the updated service with zero downtime
-            docker compose -f docker-compose.yaml up -d --no-deps --build --force-recreate --remove-orphans
+            # Login to registry (if needed)
+            sudo docker compose -f docker-compose-dev.yaml pull
+            # Deploy with Docker Compose
+            sudo docker compose -f docker-compose.yaml up -d --no-deps --build --force-recreate --remove-orphans
