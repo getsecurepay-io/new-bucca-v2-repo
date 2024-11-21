@@ -48,6 +48,7 @@ jobs:
           script: |
             cd bucca/
             # Login to registry (if needed)
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
             sudo docker compose -f docker-compose.yaml pull
             # Deploy with Docker Compose
             sudo docker compose -f docker-compose.yaml up -d --no-deps --build --force-recreate --remove-orphans
