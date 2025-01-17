@@ -142,7 +142,7 @@ class BulkTransactionViewSet(ModelViewSet):
     def get_queryset(self):
         company = get_company(self.request)
         if company is not None:
-            meal_txn = MealTransaction.objects.filter(company=company.id)
+            meal_txn = MealTransaction.objects.filter(company=company.id).order_by('-id')
             return meal_txn
         raise ValidationError('Include App Id in request header')
 
