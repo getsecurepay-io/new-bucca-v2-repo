@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t swr.af-south-1.myhuaweicloud.com/secureid_digital_repos/bucca-api-dev:${{ github.sha }} -f docker/prod/Dockerfile
+          docker build -t swr.af-south-1.myhuaweicloud.com/secureid_digital_repos/bucca-api-dev:${{ github.sha }} -f docker/prod/Dockerfile .
           docker push swr.af-south-1.myhuaweicloud.com/secureid_digital_repos/bucca-api-dev:${{ github.sha }}
 
   deploy:
