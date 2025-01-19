@@ -57,6 +57,6 @@ jobs:
       - name: Deploy to Huawei CCE
         run: |
           kubectl apply -f $GITHUB_WORKSPACE/config/eks/deployment-api-dev.yaml
-          # kubectl apply -f $GITHUB_WORKSPACE/config/eks/ingress-api-dev.yaml
+          kubectl apply -f $GITHUB_WORKSPACE/config/eks/ingress-api-dev.yaml
 
         
