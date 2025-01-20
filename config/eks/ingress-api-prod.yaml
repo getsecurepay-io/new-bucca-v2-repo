@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - bucca-v2-backend-prod.secureid-digital.com.ng
+      - bucca.secureid-digital.com.ng
       secretName: letsencrypt-backend-bucca-api-prod
   rules:
-  - host: "bucca-v2-backend-prod.secureid-digital.com.ng"
+  - host: "bucca.secureid-digital.com.ng"
     http:
       paths:
       - pathType: Prefix
