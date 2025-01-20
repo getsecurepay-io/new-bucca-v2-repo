@@ -3,7 +3,7 @@ name: CI/CD to Huawei SWR and CCE bucca prod
 on:
   push:
     branches:
-      - prod
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
