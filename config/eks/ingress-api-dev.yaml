@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bucca-backend-api-dev-ingress
+  namespace: backend-dev
+  annotations:
+    # nginx.ingress.kubernetes.io/ssl-redirect: "false"  # No need to redirect, as SSL is not managed here
+    # kubernetes.io/elb.port: "80"
+    cert-manager.io/cluster-issuer: letsencrypt-clusterissuer
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - bucca-v2-backend-dev.secureid-digital.com.ng
+      secretName: letsencrypt-backend-bucca-api-dev
+  rules:
+  - host: "bucca-v2-backend-dev.secureid-digital.com.ng"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: bucca-api-dev-svc
+            port:
+              number: 80
+

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bucca-api-dev
+  labels:
+    app: bucca-api-dev
+  namespace: backend-dev
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1 # Number of replicas
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: bucca-api-dev
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: bucca-api-dev 
+    spec:
+      containers:
+      - name: bucca-api-dev
+        image: swr.af-south-1.myhuaweicloud.com/secureid_digital_repos/bucca-api-dev:latest  # Corrected image reference
+        imagePullPolicy: Always
+        command: ["python"]
+        args: ["manage.py", "runserver", "0.0.0.0:8000"]
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 50m
+            memory: 0.5Gi
+          limits:
+            cpu: 100m
+            memory: 1Gi
+        envFrom:
+            - secretRef:
+                name: bucca-api-secrets
+      imagePullSecrets:
+      - name: default-secret
+      dnsPolicy: ClusterFirst
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bucca-api-dev-svc
+  namespace: backend-dev
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+  selector:
+    app: bucca-api-dev

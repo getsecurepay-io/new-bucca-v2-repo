@@ -2,7 +2,7 @@ name: CICD for bucca app
 
 on:
   push:
-    branches: [main]
+    branches: [main-old]
 
 env:
   ECR_REPOSITORY:    
