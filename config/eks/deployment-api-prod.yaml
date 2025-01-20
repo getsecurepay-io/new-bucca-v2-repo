@@ -37,9 +37,9 @@ spec:
           limits:
             cpu: 100m
             memory: 1Gi
-          envFrom:
+        envFrom:
             - secretRef:
-                name: bucca-api-secrets
+                name: bucca-api-secrets  
       imagePullSecrets:
       - name: default-secret
       dnsPolicy: ClusterFirst
